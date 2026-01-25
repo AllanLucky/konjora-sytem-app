@@ -1,8 +1,10 @@
 @extends('backend.admin.master')
 
 @section('content')
+
   <div class="page-content">
     <!--breadcrumb-->
+    @include('backend.section.breadcrumb', ['title' => 'Infox-Box', 'sub_title' => 'manged-Info'])
     <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
       <div class="breadcrumb-title pe-3">Info Box</div>
       <div class="ps-3">

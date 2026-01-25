@@ -4,9 +4,11 @@ use App\Http\Controllers\admin\InfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\AdminInstructorController;
 use App\Http\Controllers\backend\InstructorController;
 use App\Http\Controllers\backend\AdminProfileController;
 use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\CourseController;
 use App\Http\Controllers\backend\InstructorProfileController;
 use App\Http\Controllers\backend\SliderController;
 use App\Http\Controllers\backend\SubCategoryController;
@@ -26,6 +28,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Protected Routes (auth + email verified + admin role)
     Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
+
+        // Dashboard
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::post('/logout', [AdminController::class, 'logout'])->name('logout');
 
@@ -36,14 +40,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Password Routes
         Route::get('/password/settings', [AdminProfileController::class, 'showPasswordForm'])->name('passwordSettings');
-        Route::post('/password/settings', [AdminProfileController::class, 'passwordSettings']);
+        Route::post('/password/settings', [AdminProfileController::class, 'passwordSettings'])->name('passwordSettings.store');
 
-        //Category Management Routes
+        // Category Management Routes
         Route::resource('category', CategoryController::class);
         Route::resource('subcategory', SubCategoryController::class);
         Route::resource('slider', SliderController::class);
         Route::resource('info', InfoController::class);
 
+
+    Route::resource('instructor', AdminInstructorController::class);
+    Route::post('/update-status', [AdminInstructorController::class, 'updateStatus'])->name('instructor.status');
+    Route::get('/instructor-active-list', [AdminInstructorController::class, 'instructorActive'])->name('instructor.active');
 
     });
 });
@@ -69,6 +77,12 @@ Route::prefix('instructor')->name('instructor.')->group(function () {
         // Password Routes
         Route::get('/password/settings', [InstructorProfileController::class, 'showPasswordForm'])->name('passwordSettings');
         Route::post('/password/settings', [InstructorProfileController::class, 'passwordSettings']);
+
+        // Manage Courses
+      Route::resource('course', CourseController::class);
+      Route::get('/get-subcategories/{categoryId}', [CategoryController::class, 'getSubcategories']);
+
+
     });
 });
 

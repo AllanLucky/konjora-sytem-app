@@ -42,10 +42,11 @@
             </a>
             <ul>
                 <li class="{{ setSidebar(['admin.instructor.index']) }}">
-                    <a href=""><i class='bx bx-radio-circle'></i>All Instructor</a>
+                    <a href="{{ route('admin.instructor.index') }}"><i class='bx bx-radio-circle'></i>All Instructor</a>
                 </li>
                 <li class="{{ setSidebar(['admin.instructor.active']) }}">
-                    <a href=""><i class='bx bx-radio-circle'></i>Active Instructor</a>
+                    <a href="{{ route('admin.instructor.active') }}"><i class='bx bx-radio-circle'></i>Active
+                        Instructor</a>
                 </li>
             </ul>
         </li>

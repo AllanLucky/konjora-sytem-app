@@ -2,15 +2,15 @@
 
 @section('content')
     <div class="page-content">
- 
-        {{-- @if (!isApprovedUser())
+
+        @if (!isApprovedUser())
             <div class="alert alert-danger border-0 bg-danger alert-dismissible fade show">
                 <div class="text-white">
                     <p style="font-size: 20px">Your account is inactive. Please wait admin will check & approved it</p>
                 </div>
 
             </div>
-        @endif  --}}
+        @endif
 
         <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
             <div class="col">
@@ -88,8 +88,7 @@
                                 <h6 class="mb-0">Sales Overview</h6>
                             </div>
                             <div class="dropdown ms-auto">
-                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#"
-                                    data-bs-toggle="dropdown"><i
+                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                                         class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -128,8 +127,8 @@
                         <div class="col">
                             <div class="p-3">
                                 <h5 class="mb-0">12:38</h5>
-                                <small class="mb-0">Visitor Duration <span> <i
-                                            class="bx bx-up-arrow-alt align-middle"></i> 12.65%</span></small>
+                                <small class="mb-0">Visitor Duration <span> <i class="bx bx-up-arrow-alt align-middle"></i>
+                                        12.65%</span></small>
                             </div>
                         </div>
                         <div class="col">
@@ -150,8 +149,7 @@
                                 <h6 class="mb-0">Trending Products</h6>
                             </div>
                             <div class="dropdown ms-auto">
-                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#"
-                                    data-bs-toggle="dropdown"><i
+                                <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown"><i
                                         class='bx bx-dots-horizontal-rounded font-22 text-option'></i>
                                 </a>
                                 <ul class="dropdown-menu">
@@ -242,11 +240,11 @@
                                 <td>03 Feb 2020</td>
                                 <td>
                                     <div class="progress" style="height: 6px;">
-                                        <div class="progress-bar bg-gradient-quepal" role="progressbar"
-                                            style="width: 100%"></div>
+                                        <div class="progress-bar bg-gradient-quepal" role="progressbar" style="width: 100%">
+                                        </div>
                                     </div>
                                 </td>
-                              </tr>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
