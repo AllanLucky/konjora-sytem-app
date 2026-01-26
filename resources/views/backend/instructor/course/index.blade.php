@@ -8,22 +8,21 @@
       <div class="ps-3">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb mb-0 p-0">
-            <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-            </li>
+            <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
             <li class="breadcrumb-item active" aria-current="page">All Course</li>
           </ol>
         </nav>
       </div>
-
     </div>
     <!--end breadcrumb-->
+
     <div style="display: flex; align-items:center; justify-content:space-between">
       <h6 class="mb-0 text-uppercase">All Courses</h6>
-      <a href="{{route('instructor.course.create')}}" class="btn btn-primary">Add Course</a>
-
+      <a href="{{ route('instructor.course.create') }}" class="btn btn-primary">Add Course</a>
     </div>
 
     <hr />
+
     <div class="card">
       <div class="card-body">
         <div class="table-responsive">
@@ -43,33 +42,22 @@
             <tbody>
               @foreach($all_courses as $index => $item)
                 <tr>
-                  <td>{{$index + 1}}</td>
+                  <td>{{ $index + 1 }}</td>
                   <td>
-                    @if($item->course_image)
-                      <img src="{{asset($item->course_image)}}" width="140" height="70" />
+                    @if($item->course_image && file_exists(public_path($item->course_image)))
+                      <img src="{{ asset($item->course_image) }}" width="140" height="70" />
                     @else
                       <span>No image found</span>
                     @endif
                   </td>
+                  <td>{{ $item->course_name }}</td>
+                  <td>{{ $item->category['name'] ?? 'N/A' }}</td>
+                  <td>{{ $item->subCategory['name'] ?? 'N/A' }}</td>
+                  <td>{{ $item->selling_price }}</td>
+                  <td>{{ $item->discount_price }}</td>
                   <td>
-                    {{$item->course_name}}
-                  </td>
-
-                  <td>{{$item->category['name'] ?? Null }}</td>
-                  <td>
-                    {{$item->subCategory['name'] ?? Null}}
-                  </td>
-                  <td>
-                    {{$item->selling_price}}
-                  </td>
-
-                  <td>
-                    {{$item->discount_price}}
-                  </td>
-
-
-                  <td>
-                    <a href="{{route('instructor.course.edit', $item->id)}}" class="btn btn-primary">
+                    <!-- Edit Button -->
+                    <a href="{{ route('instructor.course.edit', $item->id) }}" class="btn btn-primary">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path
@@ -79,6 +67,7 @@
                       </svg>
                     </a>
 
+                    <!-- Delete Button -->
                     <a href="javascript:void(0)" class="btn btn-danger delete-category" data-id="{{ $item->id }}"
                       style="margin-left: 10px">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -93,8 +82,8 @@
                       @method('DELETE')
                     </form>
 
-                    <a href="{{route('instructor.course-section.show', $item->id)}}" class="btn btn-success"
-                      style="margin-left:10px">
+                    <!-- View Sections Button -->
+                    <a href="" class="btn btn-success" style="margin-left:10px">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                         class="bi bi-card-list" viewBox="0 0 16 16">
                         <path
@@ -103,31 +92,21 @@
                           d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
                       </svg>
                     </a>
-
-
-
-
                   </td>
                 </tr>
               @endforeach
             </tbody>
-
-
           </table>
         </div>
       </div>
     </div>
-
-
   </div>
 @endsection
 
 @push('scripts')
-
   <script>
     $(document).on('click', '.delete-category', function (e) {
       e.preventDefault();
-
       let categoryId = $(this).data('id');
       let deleteUrl = "{{ route('instructor.course.destroy', ':id') }}".replace(':id', categoryId);
 
@@ -146,5 +125,4 @@
       });
     });
   </script>
-
 @endpush

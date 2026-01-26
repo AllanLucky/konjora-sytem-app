@@ -153,14 +153,14 @@
                             Course Goals
                             <button type="button" class="btn btn-primary btn-sm" id="addGoalInput">+</button>
                         </label>
-                        <div id="goalContainer">
+                        {{-- <div id="goalContainer">
                             @foreach ($course_goals as $data)
                                 <div class="d-flex align-items-center gap-2 mb-2">
                                     <input type="text" class="form-control" name="course_goals[]" value="{{ $data->goal_name }}" placeholder="Enter Course Goal">
                                     <button type="button" class="btn btn-danger btn-sm removeGoalInput">-</button>
                                 </div>
                             @endforeach
-                        </div>
+                        </div> --}}
                     </div>
 
                     {{-- Bestseller, Featured, Highestrated --}}

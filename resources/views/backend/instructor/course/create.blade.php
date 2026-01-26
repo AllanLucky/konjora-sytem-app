@@ -40,12 +40,13 @@
           {{-- Course Name & Slug --}}
           <div class="col-md-6">
             <label class="form-label">Course Name</label>
-            <input type="text" class="form-control" name="course_name" placeholder="Enter the course name"
+            <input type="text" id="name" class="form-control" name="course_name" placeholder="Enter the course name"
               value="{{ old('course_name') }}" required>
           </div>
+
           <div class="col-md-6">
             <label class="form-label">Slug</label>
-            <input type="text" class="form-control" name="course_name_slug" placeholder="Enter the slug"
+            <input type="text" id="slug" class="form-control" name="course_name_slug" placeholder="Enter the slug"
               value="{{ old('course_name_slug') }}" required>
           </div>
 
@@ -66,6 +67,7 @@
               @endforeach
             </select>
           </div>
+
           <div class="col-md-6">
             <label class="form-label">SubCategory</label>
             <select class="form-select" name="subcategory_id" id="subcategory" required>
@@ -76,7 +78,7 @@
           {{-- Image --}}
           <div class="col-md-6">
             <label class="form-label">Course Image</label>
-            <input type="file" class="form-control" name="image" id="Photo" accept="image/*">
+            <input type="file" class="form-control" name="image" id="image" accept="image/*">
             <img src="" id="photoPreview" class="img-fluid mt-2" style="max-height:150px; display:none;">
           </div>
 
@@ -112,6 +114,7 @@
               <option value="advance">Advance</option>
             </select>
           </div>
+
           <div class="col-md-6">
             <label class="form-label">Certificate</label>
             <select class="form-select" name="certificate">
@@ -126,10 +129,12 @@
             <label class="form-label">Selling Price</label>
             <input type="number" class="form-control" name="selling_price" value="{{ old('selling_price') }}">
           </div>
+
           <div class="col-md-6">
             <label class="form-label">Discount Price</label>
             <input type="number" class="form-control" name="discount_price" value="{{ old('discount_price') }}">
           </div>
+
           <div class="col-md-6">
             <label class="form-label">Course Duration (Hours)</label>
             <input type="number" step="0.01" class="form-control" name="duration" value="{{ old('duration') }}">
@@ -157,18 +162,17 @@
           {{-- Bestseller, Featured, Highestrated --}}
           <div class="col-md-12 d-flex gap-3 mt-3">
             <div class="form-check form-check-success">
-              <input type="hidden" name="bestseller" value="no">
-              <input class="form-check-input" type="checkbox" name="bestseller" value="yes">
+              <input class="form-check-input" type="checkbox" name="bestseller" value="1">
               <label class="form-check-label">Bestseller</label>
             </div>
+
             <div class="form-check form-check-danger">
-              <input type="hidden" name="featured" value="no">
-              <input class="form-check-input" type="checkbox" name="featured" value="yes">
+              <input class="form-check-input" type="checkbox" name="featured" value="1">
               <label class="form-check-label">Featured</label>
             </div>
+
             <div class="form-check form-check-warning">
-              <input type="hidden" name="highestrated" value="no">
-              <input class="form-check-input" type="checkbox" name="highestrated" value="yes">
+              <input class="form-check-input" type="checkbox" name="highestrated" value="1">
               <label class="form-check-label">Highestrated</label>
             </div>
           </div>
@@ -177,7 +181,6 @@
           <div class="col-md-12 mt-4">
             <button type="submit" class="btn btn-primary w-100">Create Course</button>
           </div>
-
         </form>
       </div>
     </div>
@@ -185,59 +188,5 @@
 @endsection
 
 @push('scripts')
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-
-      // Video preview
-      const videoUrlField = document.getElementById('video_url');
-      const videoPreview = document.getElementById('videoPreview');
-
-      function updateVideoPreview(url) {
-        const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(regex);
-        if (match) {
-          videoPreview.src = `https://www.youtube.com/embed/${match[1]}`;
-          videoPreview.style.display = 'block';
-        } else {
-          videoPreview.style.display = 'none';
-          videoPreview.src = '';
-        }
-      }
-
-      updateVideoPreview(videoUrlField.value);
-      videoUrlField.addEventListener('input', () => updateVideoPreview(videoUrlField.value));
-
-      // Add/Remove course goals
-      document.getElementById('addGoalInput').addEventListener('click', () => {
-        const container = document.getElementById('goalContainer');
-        const div = document.createElement('div');
-        div.className = 'd-flex align-items-center gap-2 mb-2';
-        div.innerHTML = `
-                <input type="text" class="form-control" name="course_goals[]" placeholder="Enter Course Goal">
-                <button type="button" class="btn btn-danger btn-sm removeGoalInput">-</button>
-            `;
-        container.appendChild(div);
-      });
-
-      document.getElementById('goalContainer').addEventListener('click', function (e) {
-        if (e.target.classList.contains('removeGoalInput')) {
-          e.target.parentNode.remove();
-        }
-      });
-
-      // Update hidden inputs for checkboxes
-      document.querySelectorAll(".form-check-input").forEach(function (checkbox) {
-        checkbox.addEventListener("change", function () {
-          const hiddenInput = this.previousElementSibling;
-          hiddenInput.value = this.checked ? "yes" : "no";
-        });
-      });
-
-      // CKEditor
-      CKEDITOR.replace('description', { height: 360 });
-
-    });
-  </script>
-
   <script src="{{ asset('customjs/instructor/course.js') }}"></script>
 @endpush
