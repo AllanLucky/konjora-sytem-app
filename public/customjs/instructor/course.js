@@ -1,90 +1,105 @@
+/* auto generate slug   */
+
 $(document).ready(function () {
-
-    // Auto-generate slug
+    // Listen for input changes in the "name" field
     $('#name').on('input', function () {
-        let name = $(this).val().trim();
-        let slug = name.toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[^\w-]+/g, '')
-            .replace(/--+/g, '-')
-            .replace(/^-+|-+$/g, '');
-        $('#slug').val(slug);
+        var name = $(this).val();
+        var slug = name.toLowerCase() // Convert to lowercase
+            .replace(/ /g, '-')       // Replace spaces with hyphens
+            .replace(/[^\w-]+/g, ''); // Remove non-word characters
+        $('#slug').val(slug);        // Set the slug input value
     });
+});
 
-    // Dynamic dependent dropdown
-    $('#category').on('change', function () {
-        let categoryId = $(this).val();
-        if (!categoryId) {
-            $('#subcategory').empty().append('<option value="" disabled selected>Select a subcategory</option>');
-            return;
-        }
-        $.ajax({
-            url: '/instructor/get-subcategories/' + categoryId,
-            type: 'GET',
-            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-            success: function (data) {
-                $('#subcategory').empty().append('<option value="" disabled selected>Select a subcategory</option>');
-                $.each(data, function (_, value) {
-                    $('#subcategory').append(`<option value="${value.id}">${value.name}</option>`);
-                });
-            },
-            error: function () { alert('Failed to load subcategories.'); }
-        });
-    });
 
-    // Image Preview
-    $('#image').on('change', function (e) {
-        const file = e.target.files[0];
-        if (!file) return;
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/jpg'];
-        if (!validTypes.includes(file.type)) {
-            alert('Please upload a valid image file (JPEG, PNG, GIF).');
-            $('#image').val('');
-            $('#photoPreview').hide().attr('src', '');
-            return;
-        }
-        const objectURL = URL.createObjectURL(file);
-        $('#photoPreview').attr('src', objectURL).show();
-    });
+/*   Dynamic form addd */
 
-    // YouTube Video Preview
-    const videoUrlField = document.getElementById('video_url');
-    const videoPreview = document.getElementById('videoPreview');
-    function updateVideoPreview(url) {
-        const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
-        const match = url.match(regex);
-        if (match) {
-            videoPreview.src = `https://www.youtube.com/embed/${match[1]}`;
-            videoPreview.style.display = 'block';
-        } else {
-            videoPreview.style.display = 'none';
-            videoPreview.src = '';
-        }
-    }
-    if(videoUrlField) {
-        updateVideoPreview(videoUrlField.value);
-        videoUrlField.addEventListener('input', function () {
-            updateVideoPreview(videoUrlField.value);
-        });
-    }
+$(document).ready(function () {
+    // Add new input field for course goal
+    $('#addGoalInput').on('click', function (e) {
+        e.preventDefault(); // Prevent default behavior
 
-    // Add/Remove course goals
-    $('#addGoalInput').on('click', function () {
         $('#goalContainer').append(`
-            <div class="d-flex align-items-center gap-2 mb-2">
-                <input type="text" class="form-control" name="course_goals[]" placeholder="Enter Course Goal">
-                <button type="button" class="btn btn-danger btn-sm removeGoalInput">-</button>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                <input type="text" class="form-control" name="course_goals[]" placeholder="Enter Course Goal" />
+                <button type="button" class="btn btn-danger removeGoalInput">-</button>
             </div>
         `);
     });
-    $('#goalContainer').on('click', '.removeGoalInput', function () {
-        $(this).parent().remove();
+
+    // Remove an input field
+    $(document).on('click', '.removeGoalInput', function () {
+        $(this).closest('div').remove();
+    });
+});
+
+    /* dynamic dependent jquery   */
+
+    $(document).ready(function () {
+        $('#category').on('change', function () {
+            var categoryId = $(this).val();
+
+            if (categoryId) {
+                $.ajax({
+                    url: '/instructor/get-subcategories/' + categoryId,
+                    type: 'GET',
+
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Dynamically fetch CSRF token
+                    },
+
+                    success: function (data) {
+
+                        console.log(data);
+                        $('#subcategory').empty(); // Clear previous options
+                        $('#subcategory').append('<option value="" disabled selected>Select a subcategory</option>');
+
+                        $.each(data, function (key, value) {
+                            $('#subcategory').append('<option value="' + parseInt(value.id) + '">' + value.name + '</option>');
+                        });
+                    },
+                    error: function () {
+                        alert('Failed to load subcategories.');
+                    }
+                });
+            } else {
+                $('#subcategory').empty();
+                $('#subcategory').append('<option value="" disabled selected>Select a subcategory</option>');
+            }
+        });
     });
 
-    // CKEditor
-    if(typeof CKEDITOR !== 'undefined') {
-        CKEDITOR.replace('description', { height: 360 });
-        CKEDITOR.replace('prerequisites', { height: 200 });
-    }
 
-});
+
+    /* video Preview  */
+
+
+    $(document).ready(function () {
+        $('#video').on('change', function (e) {
+            const file = e.target.files[0];
+
+            if (file) {
+                const fileType = file.type;
+                const validTypes = ['video/mp4', 'video/webm', 'video/ogg'];
+
+                // Validate the file type
+                if (!validTypes.includes(fileType)) {
+                    alert('Please upload a valid video file (MP4, WebM, OGG).');
+                    $('#video').val(''); // Clear the input
+                    return;
+                }
+
+                // Show video preview
+                const videoPreview = document.getElementById('videoPreview');
+                videoPreview.src = URL.createObjectURL(file);
+                videoPreview.style.display = 'block';
+                videoPreview.load();
+                videoPreview.onloadeddata = function () {
+                    URL.revokeObjectURL(this.src); // Free up memory
+                };
+            }
+        });
+    });
+
+
+

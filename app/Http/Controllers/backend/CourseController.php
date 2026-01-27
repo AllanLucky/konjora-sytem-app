@@ -54,7 +54,7 @@ class CourseController extends Controller
         $validatedData = $request->validated();
 
 
-        $course = $this->courseService->createCourse($validatedData, $request->file('image'));
+        $course = $this->courseService->createCourse($validatedData, $request->file('course_image'));
 
         //Manage Course Goal
         if (!empty($validatedData['course_goals'])) {
@@ -91,7 +91,7 @@ class CourseController extends Controller
         $validatedData = $request->validated();
 
 
-        $course = $this->courseService->updateCourse($validatedData, $request->file('image'), $id);
+        $course = $this->courseService->updateCourse($validatedData, $request->file('course_image'), $id);
 
         //Manage Course Goal
 
