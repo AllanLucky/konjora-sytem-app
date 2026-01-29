@@ -2,7 +2,7 @@
 
 @section('content');
 
-  @include('frontend.section.hero')
+  @include('frontend.section.hero');
 
   @include('frontend.section.feature');
 

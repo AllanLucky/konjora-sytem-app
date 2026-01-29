@@ -24,102 +24,91 @@ class CourseController extends Controller
         $this->courseService = $courseService;
     }
 
-
-
-
     public function index()
     {
         $instructor_id = Auth::user()->id;
-        $all_courses = Course::where('instructor_id', $instructor_id)->with('category', 'subCategory')->latest()->get();
+        $all_courses = Course::where('instructor_id', $instructor_id)
+            ->with('category', 'subCategory')
+            ->latest()
+            ->get();
         return view('backend.instructor.course.index', compact('all_courses'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $all_categories = Category::all();
         return view('backend.instructor.course.create', compact('all_categories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(CourseRequest $request)
     {
-
-
-
         $validatedData = $request->validated();
 
+        // Always default course_goals to empty array
+        $courseGoals = $validatedData['course_goals'] ?? [];
 
-        $course = $this->courseService->createCourse($validatedData, $request->file('course_image'));
+        $course = $this->courseService->createCourse(
+            $validatedData,
+            $request->file('course_image')
+        );
 
-        //Manage Course Goal
-        if (!empty($validatedData['course_goals'])) {
-            $this->courseService->createCourseGoals($course->id, $validatedData['course_goals']);
+        // Manage Course Goal
+        if (!empty($courseGoals)) {
+            $this->courseService->createCourseGoals($course->id, $courseGoals);
         }
 
         return back()->with('success', 'Course created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $all_categories = Category::all();
-        $course = Course::with('subCategory')->find($id);
-        // $course_goals = CourseGoal::where('course_id', $id)->get();
-        return view('backend.instructor.course.edit', compact('all_categories', 'course'));
+        $course = Course::with('subCategory')->findOrFail($id);
+
+        // Always fetch course goals safely
+        $course_goals = CourseGoal::where('course_id', $id)->get() ?? collect();
+
+        return view('backend.instructor.course.edit', compact('all_categories', 'course', 'course_goals'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(CourseRequest $request, string $id)
     {
         $validatedData = $request->validated();
 
+        // Always default course_goals to empty array
+        $courseGoals = $validatedData['course_goals'] ?? [];
 
-        $course = $this->courseService->updateCourse($validatedData, $request->file('course_image'), $id);
+        $course = $this->courseService->updateCourse(
+            $validatedData,
+            $request->file('course_image'),
+            $id
+        );
 
-        //Manage Course Goal
-
-        if (!empty($validatedData['course_goals'])) {
-            $this->courseService->updateCourseGoals($course->id, $validatedData['course_goals']);
-        }
+        // Manage Course Goal
+        $this->courseService->updateCourseGoals($course->id, $courseGoals);
 
         return back()->with('success', 'Course updated successfully!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
-{
-    $course = Course::findOrFail($id);
+    {
+        $course = Course::findOrFail($id);
 
-    // Delete associated image if it exists
-    if ($course->course_image) {
-        $imagePath = public_path($course->course_image); // Use the correct property
-        if (file_exists($imagePath)) {
-            unlink($imagePath);
+        // Delete associated image if it exists
+        if ($course->course_image) {
+            $imagePath = public_path($course->course_image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
+
+        $course->delete();
+
+        return redirect()->route('instructor.course.index')->with('success', 'Course deleted successfully.');
     }
-
-    $course->delete();
-
-    return redirect()->route('instructor.course.index')->with('success', 'Course deleted successfully.');
-}
-
 }

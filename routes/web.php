@@ -9,10 +9,12 @@ use App\Http\Controllers\backend\InstructorController;
 use App\Http\Controllers\backend\AdminProfileController;
 use App\Http\Controllers\backend\CategoryController;
 use App\Http\Controllers\backend\CourseController;
+use App\Http\Controllers\backend\CourseSectionController;
 use App\Http\Controllers\backend\InstructorProfileController;
 use App\Http\Controllers\backend\SliderController;
 use App\Http\Controllers\backend\SubCategoryController;
 use App\Http\Controllers\frontend\FrontendDashboardController;
+use App\Http\Controllers\LectureController;
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -80,7 +82,10 @@ Route::prefix('instructor')->name('instructor.')->group(function () {
 
         // Manage Courses
       Route::resource('course', CourseController::class);
+      Route::resource('course-section', CourseSectionController::class);
+      Route::resource('lecture', LectureController::class);
       Route::get('/get-subcategories/{categoryId}', [CategoryController::class, 'getSubcategories']);
+       
 
 
     });

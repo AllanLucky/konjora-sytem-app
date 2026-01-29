@@ -1,5 +1,5 @@
 <?php
-$categories = getCategories();
+$categories = getCategories()
 ?>
 
 <header class="header-menu-area bg-danger">
@@ -10,13 +10,15 @@ $categories = getCategories();
                     <div class="header-widget">
                         <ul class="generic-list-item d-flex flex-wrap align-items-center">
                             <li class="d-flex align-items-center pr-3 mr-3 border-right border-right-gray">
-                                <i class="la la-phone mr-2 text-white" style="font-size: 24px;"></i>
+                                <i class="la la-phone mr-2 text-white" style="font-size: 24px"></i>
                                 <a href="tel:00123456789" class="text-white fw-bold me-4">(+254)792491368</a>
                             </li>
                             <li class="d-flex align-items-center ml-3">
                                 <i class="la la-envelope-o mr-2 text-white" style="font-size: 24px;"></i>
-                                <a href="mailto:allandevtech@gmail.com" class="fw-bold text-white fw-bold me-4"
-                                    style="font-size: 18px;">allandevtech@gmail.com</a>
+                                <a href="mailto:info@konjorapolytechnic.ac.ke" class="fw-bold text-white me-4"
+                                    style="font-size: 18px;">
+                                    info@konjorapolytechnic.ac.ke
+                                </a>
                             </li>
                         </ul>
 
@@ -74,9 +76,7 @@ $categories = getCategories();
                                     @if (auth()->user()->role == 'instructor')
                                         <a href="" class="text-white fw-bold">Dashboard</a>
                                     @endif
-
                                 </li>
-
                             </ul>
                         @endif
                     </div><!-- end header-widget -->
@@ -91,27 +91,18 @@ $categories = getCategories();
                 <div class="row align-items-center">
                     <div class="col-lg-2">
                         <div class="logo-box">
-                            <a href="" class="logo d-flex align-items-center">
-                                <img src="{{asset('frontend/images/konjora.png')}}" alt="logo" class="me-2"
-                                    style="height:70px;">
-                                <span class="fw-bold fs-4 text-dark">Konjora Polytechnic</span>
-                            </a>
-                            <div class="user-btn-action">
-                                <div class="search-menu-toggle icon-element icon-element-sm shadow-sm mr-2"
-                                    data-toggle="tooltip" data-placement="top" title="Search">
-                                    <i class="la la-search"></i>
-                                </div>
-                                <div class="off-canvas-menu-toggle cat-menu-toggle icon-element icon-element-sm shadow-sm mr-2"
-                                    data-toggle="tooltip" data-placement="top" title="Category menu">
-                                    <i class="la la-th-large"></i>
-                                </div>
-                                <div class="off-canvas-menu-toggle main-menu-toggle icon-element icon-element-sm shadow-sm"
-                                    data-toggle="tooltip" data-placement="top" title="Main menu">
-                                    <i class="la la-bars"></i>
-                                </div>
+                            <!-- Logo -->
+                            <div class="col-lg-3 d-flex align-items-center">
+                                <a href="/" class="navbar-brand d-flex align-items-center text-nowrap">
+                                    <img src="{{ asset('frontend/images/konjora.png') }}" alt="Konjora Logo"
+                                        class="me-2" style="height:70px;">
+                                    <span class="fw-bold fs-4 text-dark">
+                                        Konjora Polytechnic
+                                    </span>
+                                </a>
                             </div>
                         </div>
-                    </div><!-- end col-lg-2 -->
+                    </div>
                     <div class="col-lg-10">
                         <div class="menu-wrapper">
                             <div class="menu-category">
@@ -245,11 +236,6 @@ $categories = getCategories();
                 <a href="">Contact Us</a>
 
             </li>
-
         </ul>
     </div><!-- end off-canvas-menu -->
-
-
-
-
 </header><!-- end header-menu-area -->

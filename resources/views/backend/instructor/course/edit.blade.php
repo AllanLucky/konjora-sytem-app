@@ -4,22 +4,8 @@
 @section('content')
     <div class="page-content">
         <!--breadcrumb-->
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Course</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a>
-                        </li>
-                        <li class="breadcrumb-item active" aria-current="page">Update Course</li>
-                    </ol>
-                </nav>
-            </div>
-
-        </div>
+        @include('backend.section.breadcrumb', ['title' => 'Course', 'sub_title' => 'Update-Course'])
         <!--end breadcrumb-->
-
-
         <div class="card col-md-12">
 
             <div class="card-body">
@@ -47,11 +33,7 @@
                                 </ul>
                             </div>
                         @endif
-
                         <input type="hidden" name="instructor_id" value="{{ auth()->user()->id }}" />
-
-
-
                         <div class="col-md-6">
                             <label for="name" class="form-label">Course Name</label>
                             <input type="text" class="form-control" name="course_name" id="name"
@@ -92,8 +74,6 @@
                                 </option>
                             </select>
                         </div>
-
-
                         <div class="col-md-6">
                             <label for="image" class="form-label">Image</label>
                             <input type="file" class="form-control" name="image" id="Photo" accept="image/*">
@@ -133,8 +113,6 @@
                             </div>
 
                         </div>
-
-
                         <div class="col-md-6">
                             <label for="label" class="form-label">Course Label</label>
                             <select class="form-select" name="label" id="label" data-placeholder="Choose one thing">
@@ -163,12 +141,6 @@
 
                             </select>
                         </div>
-
-
-
-
-
-
                         <div class="col-md-6">
                             <label for="selling_price" class="form-label">Selling Price</label>
                             <input type="number" class="form-control" name="selling_price" id="selling_price"
@@ -202,25 +174,18 @@
                                 Course Goals
                                 <button type="button" id="addGoalInput" class="btn btn-primary">+</button>
                             </label>
-                            {{-- <div id="goalContainer">
+                            <div id="goalContainer">
 
                                 @foreach ($course_goals as $data)
-                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;">
 
-                                    <input type="text" class="form-control" name="course_goals[]"
-                                        placeholder="Enter Course Goal" value="{{ $data->goal_name }}" />
-                                    <button type="button" class="btn btn-danger removeGoalInput">-</button>
-
-
-                                </div>
+                                        <input type="text" class="form-control" name="course_goals[]"
+                                            placeholder="Enter Course Goal" value="{{ $data->goal_name }}" />
+                                        <button type="button" class="btn btn-danger removeGoalInput">-</button>
+                                    </div>
                                 @endforeach
-                            </div> --}}
+                            </div>
                         </div>
-
-
-
-
-
                         <div class="d-flex align-items-center gap-3 mt-3">
                             <div class="form-check">
                                 <input type="hidden" name="bestseller" value="0">
@@ -240,12 +205,6 @@
                                 <label class="form-check-label">Highest Rated</label>
                             </div>
                         </div>
-
-
-
-
-
-
                         <div class="col-md-12">
                             <div class="d-md-flex d-grid align-items-center gap-3">
                                 <button type="submit" class="btn btn-primary px-4 w-100">Update</button>
@@ -253,15 +212,8 @@
                         </div>
                     </form>
                 </div>
-
             </div>
-
         </div>
-
-
-
-
-
     </div>
 @endsection
 

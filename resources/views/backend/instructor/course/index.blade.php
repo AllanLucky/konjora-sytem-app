@@ -3,21 +3,11 @@
 @section('content')
     <div class="page-content">
         <!--breadcrumb-->
-        <div class="page-breadcrumb d-none d-sm-flex align-items-center mb-3">
-            <div class="breadcrumb-title pe-3">Course</div>
-            <div class="ps-3">
-                <nav aria-label="breadcrumb">
-                    <ol class="breadcrumb mb-0 p-0">
-                        <li class="breadcrumb-item"><a href="javascript:;"><i class="bx bx-home-alt"></i></a></li>
-                        <li class="breadcrumb-item active" aria-current="page">All Course</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
+        @include('backend.section.breadcrumb', ['title' => 'Course', 'sub_title' => 'All-Courses'])
         <!--end breadcrumb-->
 
         <div style="display: flex; align-items:center; justify-content:space-between">
-            <h6 class="mb-0 text-uppercase">All Courses</h6>
+            <h6 class="mb-0 text-uppercase">All Coursess</h6>
             <a href="{{ route('instructor.course.create') }}" class="btn btn-primary">Add Course</a>
         </div>
         <hr />
@@ -85,7 +75,8 @@
                                         </form>
 
                                         <!-- View Sections Button -->
-                                        <a href="" class="btn btn-success" style="margin-left:10px">
+                                        <a href="{{route('instructor.course-section.show', $item->id)}}" class="btn btn-success"
+                                            style="margin-left:10px">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                                 class="bi bi-card-list" viewBox="0 0 16 16">
                                                 <path
