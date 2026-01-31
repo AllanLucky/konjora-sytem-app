@@ -4,7 +4,7 @@
 namespace App\Repositories;
 
 use App\Models\CourseLecture;
-use App\Traits\FileUploadTrait; // Import the FileUploadTrait
+use App\Traits\FileUploadTrait;
 
 class LectureRepository
 {

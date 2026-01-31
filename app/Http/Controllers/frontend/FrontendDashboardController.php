@@ -14,6 +14,13 @@ class FrontendDashboardController extends Controller
         $all_sliders = Slider::latest()->get();
         $all_info = InfoBox::all();
         $all_categories = Category::inRandomOrder()->limit(6)->get();
-        return view('frontend.pages.home.index', compact('all_sliders','all_info', 'all_categories'));
+
+        $categories = Category::all();
+        $course_category = Category::with('course', 'course.user')->get();
+
+        // dd($course_category);
+
+
+        return view('frontend.pages.home.index', compact('all_sliders','all_info', 'all_categories', 'categories', 'course_category'));
     }
 }

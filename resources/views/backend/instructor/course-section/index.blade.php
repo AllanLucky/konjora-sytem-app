@@ -164,7 +164,7 @@
 @push('scripts')
   <script src="{{ asset('customjs/instructor/lecture.js') }}"></script>
 
-  {{--
+  
   <script>
     $(document).on('click', '.delete-lecture', function (e) {
       e.preventDefault();
@@ -186,7 +186,7 @@
         }
       });
     });
-  </script> --}}
+  </script>
 
   <script>
     $(document).on('click', '.delete-section', function (e) {

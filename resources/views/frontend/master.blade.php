@@ -11,7 +11,7 @@
     rel="stylesheet">
 
   <!-- Favicon -->
-  <link rel="icon" sizes="16x16" href="{{ asset('frontend/images/favicon.png') }}">
+  <link rel="icon" sizes="16x16" href="{{ asset('frontend/images/konjora.png') }}">
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- inject:css -->
@@ -93,7 +93,7 @@
 
   <!---tooltip--->
 
-  {{-- @include('frontend.section.tooltip') --}}
+  @include('frontend.section.tooltip')
 
 
   <!-- template js files -->

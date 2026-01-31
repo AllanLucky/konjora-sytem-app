@@ -13,18 +13,19 @@ class ProfileRepository
     // Get the profile of the currently logged-in user
     public function findProfile()
     {
-        $user_id = Auth::id(); // Use default guard (normal user)
-        return User::find($user_id); // simpler than where()->first()
+        $user_id = Auth::id(); // Use default guard
+        return User::find($user_id);
     }
 
     // Create or update the profile
-    public function createCategory($data, $photo)
+    public function createOrUpdateProfile($data, $photo)
     {
         $profile = $this->findProfile();
 
         if ($profile) {
             // Handle photo upload if provided
             if ($photo) {
+                // $profile->photo is the old file to delete (if needed)
                 $data['photo'] = $this->uploadFile($photo, 'user', $profile->photo);
             }
 
@@ -35,4 +36,3 @@ class ProfileRepository
         return $profile;
     }
 }
-

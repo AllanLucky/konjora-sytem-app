@@ -1,46 +1,37 @@
 <?php
 
-
 namespace App\Repositories;
 
 use App\Models\Slider;
-use App\Traits\FileUploadTrait; 
+use App\Traits\FileUploadTrait;
 
 class SliderRepository
 {
-    use FileUploadTrait; 
+    use FileUploadTrait;
 
-
-
-    public function saveSlider($data, $photo)
+    public function saveSlider(array $data, $photo = null)
     {
-       $slider = new Slider();
-
-        // Handle file uploads manually
         if ($photo) {
-            $data['image'] = $this->uploadFile($photo, 'slider', $slider->photo);
+            $data['image'] = $this->uploadFile($photo, 'slider');
         }
 
-
-        // Save the intro
-        $slider->create($data);
-
-        return $slider;
+        return Slider::create($data);
     }
 
-    public function updateSlider($data, $photo, $id)
+    public function updateSlider(array $data, $id, $photo = null)
     {
-       $slider = Slider::find($id);
-        // Handle file uploads manually
+        $slider = Slider::findOrFail($id);
+
         if ($photo) {
-            $data['image'] = $this->uploadFile($photo, 'slider', $slider->photo);
+            $data['image'] = $this->uploadFile(
+                $photo,
+                'slider',
+                $slider->image // 👈 correct column
+            );
         }
 
-         // Save the intro
-         $slider->update($data);
+        $slider->update($data);
 
-         return $slider;
-
-
+        return $slider;
     }
 }
