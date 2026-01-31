@@ -18,10 +18,14 @@ class CategoryController extends Controller
         $this->categoryService = $categoryService;
     }
 
-
+    /**
+     * Display a listing of the categories.
+     */
     public function index()
     {
-        $all_categories = Category::orderBy('name', 'asc')->get();
+        // Get all categories with course count and order by name
+        $all_categories = Category::withCount('course')->orderBy('name', 'asc')->get();
+
         return view('backend.admin.category.index', compact('all_categories'));
     }
 
@@ -34,42 +38,43 @@ class CategoryController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created category in storage.
      */
     public function store(CategoryRequest $request)
     {
+        // Pass validated data and image file to the service
+        $this->categoryService->saveCategory($request->validated(), $request->file('image'));
 
-        // Pass data and files to the service
-        $this->categoryService->saveCategory($request->validated(), $request->file('image'
-        ));
-        
-         return redirect()->route('admin.category.index')->with('success', 'Category Created successfully');
-        
+        return redirect()->route('admin.category.index')->with('success', 'Category created successfully.');
     }
+
+    /**
+     * Show the form for editing the specified category.
+     */
     public function edit(string $id)
     {
-        $category = Category::find($id);
+        $category = Category::findOrFail($id);
         return view('backend.admin.category.edit', compact('category'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified category in storage.
      */
     public function update(CategoryRequest $request, string $id)
     {
         $this->categoryService->updateCategory($request->validated(), $request->file('image'), $id);
-        return redirect()->back()->with('success', 'Category Updated successfully');
+
+        return redirect()->back()->with('success', 'Category updated successfully.');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified category from storage.
      */
     public function destroy(string $id)
     {
         $category = Category::findOrFail($id);
 
-        // Delete associated image if exists
-        // Delete the image file if it exists
+        // Delete associated image if it exists
         if ($category->image) {
             $imagePath = public_path(parse_url($category->image, PHP_URL_PATH));
             if (file_exists($imagePath)) {
@@ -82,11 +87,14 @@ class CategoryController extends Controller
         return redirect()->route('admin.category.index')->with('success', 'Category deleted successfully.');
     }
 
+    /**
+     * Get subcategories for a given category (AJAX).
+     */
     public function getSubcategories($categoryId)
     {
         $subcategories = SubCategory::where('category_id', $categoryId)->get();
 
         return response()->json($subcategories);
     }
-
 }
+

@@ -1,7 +1,6 @@
 <section class="course-area pb-120px">
     <div class="container">
         <div class="section-heading text-center">
-            <h5 class="ribbon ribbon-lg mb-2">Choose your desired courses</h5>
             <h2 class="section__title">The world's largest selection of courses</h2>
             <span class="section-divider"></span>
         </div><!-- end section-heading -->
@@ -89,7 +88,7 @@
 
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <p class="card-price text-black font-weight-bold">
-                                                    ${{ $course->discount_price }}
+                                                    KES {{ $course->discount_price }}
                                                     <span class="before-price font-weight-medium">
                                                         {{ $course->selling_price }}
                                                     </span>
